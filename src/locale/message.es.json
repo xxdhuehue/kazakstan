@@ -1,0 +1,15 @@
+{
+  "locale": "es",
+  "translations": {
+    "3906390565957689971": "Bonjour le monde to the shop",
+    "Title": "Products",
+    "7743479397215344247": "Search products",
+    "2385651582183363311": " {$ICU} product(s)",
+    "3148819200742148543": "{VAR_PLURAL, plural, =0 {no} =1 {one} other {many}}",
+    "5490079901844780641": "Select gender",
+    "8012344910054029733": "Malexxx",
+    "5667840900782067941": "Femaleyyy",
+    "103770357593695258": " For {$ICU}",
+    "5006573431083130627": "{VAR_SELECT, select, male {Men} female {Women}}"
+  }
+}

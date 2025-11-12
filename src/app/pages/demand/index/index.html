@@ -1,0 +1,25 @@
+<section>
+    <header class="bg-[#99bff7] mb-12">
+        <img src="/images/demand_bg.svg" />
+    </header>
+    
+    <a routerLink="/publish"> <button  class="solid-button">发布需求</button></a>
+    <section class="flex justify-center">
+        <section class="grid grid-cols-2 md:grid-cols-3 gap-12 w-full lg:w-[60%]">
+            @for (item of publish(); track item.id) {
+                <div class="p-6 cursor-pointer bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out transform hover:-translate-y-1 overflow-hidden border border-gray-50">
+                    <h4 class="mb-4 font-bold">{{item.title}}</h4>
+                    <p>发布日期：{{ item.date | date: 'yyyy-MM-dd HH:mm:ss' }}</p>
+                    <p class="mb-2 line-clamp-3" [innerHTML]="item.content"></p>
+                    
+                   
+                        <a [routerLink]="['/demendDetail/', item.id]">
+                            查看详情
+                
+                        </a>
+                </div>
+            }
+        </section>
+    </section>
+    <router-outlet></router-outlet>
+</section>

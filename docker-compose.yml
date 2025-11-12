@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:18-alpine  # 使用轻量级的alpine版本
+    container_name: postgres-18
+    restart: always  # 自动重启
+    environment:
+      POSTGRES_USER: noah  # 数据库用户名
+      POSTGRES_PASSWORD: xxd19900311  # 数据库密码
+      POSTGRES_DB: recruit  # 初始数据库名
+      PGDATA: /var/lib/postgresql/data/pgdata  # 数据存储路径
+      POSTGRES_INITDB_ARGS: "--encoding=UTF8 --lc-collate=C --lc-ctype=C"  # 初始化编码设置
+    volumes:
+      - postgres_data:/var/lib/postgresql/data  # 持久化数据卷
+      # 可选：挂载初始化脚本目录（容器启动时会自动执行.sql/.sh文件）
+      # - ./init-scripts:/docker-entrypoint-initdb.d
+    ports:
+      - "5432:5432"  # 端口映射（主机:容器）
+volumes:
+  postgres_data: 

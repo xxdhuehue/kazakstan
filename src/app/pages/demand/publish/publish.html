@@ -1,0 +1,105 @@
+<section>
+  <form class="w-1/2 mx-auto" [formGroup]="applyForm" (submit)="submitApplication()">
+    <div class="mb-5 w-1/2">
+        <label for="title" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+          >标题</label
+        >
+        <input
+          id="title"
+          type="text"
+          formControlName="title"
+          class="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-base focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        />
+      </div>
+    <div class="mb-5">
+      <label for="category" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+        >Select an option</label
+      >
+      <select
+        id="category"
+        formControlName="category"
+        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+      >
+        <option selected>Choose a country</option>
+        <option value="US">United States</option>
+        <option value="CA">Canada</option>
+        <option value="FR">France</option>
+        <option value="DE">Germany</option>
+      </select>
+    </div>
+
+    <div class="mb-5">
+      <label for="content" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+        >输入需求内容</label
+      >
+      <!-- apikey 后期通过 pipeline 注入 -->
+      <editor
+        id="content"
+        formControlName="content"
+   
+        apiKey="ic0lbjg1whhceqn2e8tniy2g83iw9qqw7r6ynw7pqkbdxdjp"
+        [init]="{
+      
+            height: 600,
+            plugins: 'image table code link lists media emoticons fullscreen',
+            toolbar: `
+                undo redo | 
+                bold italic underline | 
+                alignleft aligncenter alignright | 
+                bullist numlist | 
+                link image media | 
+                table | 
+                emoticons | 
+                code fullscreen
+            `,
+            images_upload_url: '/api/upload',
+            images_upload_credentials: true,
+            link_default_target: '_blank', 
+            media_live_embeds: true, 
+        }"
+      ></editor>
+    </div>
+    <section class="flex w-full justify-between gap-4">
+      <div class="mb-5  w-1/2">
+        <label for="author" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+          >author</label
+        >
+        <input
+          id="author"
+          type="text"
+          formControlName="author"
+          class="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-base focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        />
+      </div>
+      <div class="mb-5 w-1/2">
+        <label for="phone" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+          >phone</label
+        >
+        <input
+          id="phone"
+          type="text"
+          formControlName="phone"
+          class="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-base focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        />
+      </div>
+    </section>
+    <div class="mb-5">
+      <label for="url" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+        >phone</label
+      >
+      <input
+        id="url"
+        type="text"
+        formControlName="url"
+        class="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-base focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+      />
+    </div>
+
+    <button
+      type="submit"
+      class="solid-button"
+    >
+      确认发布
+    </button>
+  </form>
+</section>

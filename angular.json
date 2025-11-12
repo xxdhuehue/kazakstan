@@ -4,8 +4,23 @@
   "newProjectRoot": "projects",
   "projects": {
     "recruit": {
+      "i18n": {
+        "sourceLocale":"en-US",
+        "locales": {
+          "es": {
+            "translation": "src/locale/message.es.json"
+          }
+        }
+      },
       "projectType": "application",
-      "schematics": {},
+      "schematics": {
+        "@schematics/angular:component": {
+          "skipTests": true   
+        },
+        "@schematics/angular:service": {
+          "skipTests": true   
+        }
+      },
       "root": "",
       "sourceRoot": "src",
       "prefix": "app",
@@ -13,6 +28,7 @@
         "build": {
           "builder": "@angular/build:application",
           "options": {
+            "localize": true,
             "browser": "src/main.ts",
             "tsConfig": "tsconfig.app.json",
             "assets": [
@@ -22,13 +38,17 @@
               }
             ],
             "styles": [
+              "node_modules/ng-zorro-antd/ng-zorro-antd.min.css",
               "src/styles.css"
             ],
             "server": "src/main.server.ts",
             "outputMode": "server",
             "ssr": {
               "entry": "src/server.ts"
-            }
+            },
+            "polyfills": [
+              "@angular/localize/init"
+            ]
           },
           "configurations": {
             "production": {
@@ -50,13 +70,23 @@
               "optimization": false,
               "extractLicenses": false,
               "sourceMap": true
+            },
+            "es": {
+              "localize": ["es"]
             }
           },
           "defaultConfiguration": "production"
         },
         "serve": {
+          "options": {
+            "proxyConfig": "proxy.config.json",
+            "port": 4200
+          },
           "builder": "@angular/build:dev-server",
           "configurations": {
+            "es": {
+              "buildTarget": "recruit:build:development,es"
+            },
             "production": {
               "buildTarget": "recruit:build:production"
             },
@@ -67,7 +97,12 @@
           "defaultConfiguration": "development"
         },
         "extract-i18n": {
-          "builder": "@angular/build:extract-i18n"
+          "builder": "@angular/build:extract-i18n",
+          "options": {
+            "buildTarget": "recruit:build",
+            "outputPath": "src/locale",
+            "format": "json"
+          }
         },
         "test": {
           "builder": "@angular/build:karma",
@@ -81,10 +116,16 @@
             ],
             "styles": [
               "src/styles.css"
+            ],
+            "polyfills": [
+              "@angular/localize/init"
             ]
           }
         }
       }
     }
+  },
+  "cli": {
+    "analytics": false
   }
 }

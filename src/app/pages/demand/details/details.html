@@ -1,0 +1,12 @@
+<p>details works!</p>
+<p>{{detail()?.title}}</p>
+
+@for (item of detail()?.remarks; track $index) {
+    <div>{{item.content}}</div>
+}
+<button class="solid-button" (click)="showRemark.set(true)"> 评论</button>
+
+@if (showRemark()) {
+    <textarea [(ngModel)] = "remarkContent"></textarea>
+    <button (click)="addRemark()" class="solid-button">确认</button>
+}
