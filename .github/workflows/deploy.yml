@@ -55,12 +55,7 @@ jobs:
           username: ${{ secrets.ALIYUN_USERNAME }}
           key: ${{ secrets.ALIYUN_SSH_KEY }}
           script: |
-            # 备份旧版本（可选，便于回滚）
-            timestamp=$(date +%Y%m%d%H%M%S)
-            mv /www/wwwroot/angular /www/wwwroot/angular_$timestamp || true
-            
-            # 将临时目录的文件移动到 Nginx 部署目录
-            mkdir -p /www/wwwroot/angular
+           
             mv /tmp/angular-dist/* /www/wwwroot/angular/
             
             # 清理临时文件
