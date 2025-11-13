@@ -8,7 +8,7 @@ import { Demand } from './pages/demand/index';
 import { Details } from './pages/demand/details/details';
 
 export const routes: Routes = [
-    {path:'', component: Homepage, pathMatch: 'full', canActivate: [authGuard]},
+    {path:'', component: Homepage, pathMatch: 'full'},
     {path: 'login', component: Login, data: {hideHeader: true}},
     {path: 'register', component: Register, data: {hideHeader: true}},
     {path: 'demand', component: Demand,   children: []},
