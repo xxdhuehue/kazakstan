@@ -1,0 +1,70 @@
+  
+name: Angular CI/CD to Aliyun
+
+# 触发条件：推送到 main 分支时执行
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest  # 使用 GitHub 提供的 Ubuntu 虚拟机
+
+    steps:
+      # 步骤 1：拉取 GitHub 仓库代码
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # 步骤 2：安装 Node.js（Angular 构建依赖）
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x 
+          cache: 'npm'         
+      - name: Install pnpm
+        uses: pnpm/action-setup@v3  
+        with:
+         version: 8  
+     
+      - name: Install dependencies
+        run: npm ci  # 比 npm install 更严格，确保依赖版本一致
+
+ 
+      - name: Build Angular app
+        run: npm run build -- --configuration production   
+
+      # 步骤 6：部署到阿里云服务器（通过 SSH 传输文件）
+      - name: Deploy to Aliyun server
+        uses: appleboy/scp-action@v0.1.7  # 使用 SCP 工具传输文件
+        with:
+          host: ${{ secrets.ALIYUN_HOST }}       # 服务器 IP
+          username: ${{ secrets.ALIYUN_USERNAME }} # 登录用户名
+          key: ${{ secrets.ALIYUN_SSH_KEY }}      # SSH 私钥
+          source: "dist/**"                       # 本地待传输的文件（Angular 构建产物）
+          target: "/tmp/angular-dist"             # 服务器临时目录（避免直接覆盖）
+          strip_components: 1                     # 移除 dist/ 目录层级，只传输内部文件
+
+      # 步骤 7：在服务器上执行命令（移动文件到 Nginx 目录）
+      - name: Move files to Nginx root
+        uses: appleboy/ssh-action@v1.0.3  # 通过 SSH 执行服务器命令
+        with:
+          host: ${{ secrets.ALIYUN_HOST }}
+          username: ${{ secrets.ALIYUN_USERNAME }}
+          key: ${{ secrets.ALIYUN_SSH_KEY }}
+          script: |
+            # 备份旧版本（可选，便于回滚）
+            timestamp=$(date +%Y%m%d%H%M%S)
+            mv /www/wwwroot/angular /www/wwwroot/angular_$timestamp || true
+            
+            # 将临时目录的文件移动到 Nginx 部署目录
+            mkdir -p /www/wwwroot/angular
+            mv /tmp/angular-dist/* /www/wwwroot/angular/
+            
+            # 清理临时文件
+            rm -rf /tmp/angular-dist
+            
+            # 重启 Nginx（确保配置生效）
+            systemctl restart nginx
+            
