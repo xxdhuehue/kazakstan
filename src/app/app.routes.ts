@@ -12,6 +12,6 @@ export const routes: Routes = [
     {path: 'login', component: Login, data: {hideHeader: true}},
     {path: 'register', component: Register, data: {hideHeader: true}},
     {path: 'demand', component: Demand,   children: []},
-    {path: 'demendDetail/:id', component: Details},
+    {path: 'demendDetail/:id', data: { renderMode: 'ssr' } ,loadChildren: () => import('./pages/demand/details/details').then(m => m.Details)},
     {path: 'publish', component: Publish},
 ];
